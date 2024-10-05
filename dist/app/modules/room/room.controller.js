@@ -17,8 +17,9 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const room_service_1 = require("./room.service");
 const createRoom = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const roomData = req.body;
-    const result = yield room_service_1.RoomServices.createRoomIntoDB(req.file, roomData);
+    const result = yield room_service_1.RoomServices.createRoomIntoDB((_a = req.file) === null || _a === void 0 ? void 0 : _a.path, roomData);
     (0, sendResponse_1.default)(res, {
         message: 'Room added successfully',
         data: result,

@@ -7,7 +7,7 @@ export interface TUser {
     email: string;
     password: string;
     phone: string;
-    profileImage: string;
+    profileImage?: string;
     address: string;
     role: 'admin' | 'user';
     isDeleted: boolean;

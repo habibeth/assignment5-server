@@ -7,7 +7,7 @@ const createRoom = catchAsync(async (req, res) => {
     const roomData = req.body;
 
     const result = await RoomServices.createRoomIntoDB(
-        req.file,
+        req.file?.path,
         roomData
     );
 

@@ -2,27 +2,17 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";
-import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { UserSearchableFields } from "./user.constant";
 
 
-const createUserIntoDB = async (file: any, payload: TUser) => {
+const createUserIntoDB = async (fileName: any, payload: TUser) => {
     const user = await User.isUserExistsByEmailAddress(payload.email);
     if (user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is Already Registered!')
     }
-    payload.profileImage = ''
-    if (file) {
-        const imageFileName = `${payload?.name}`
-        const path = file?.path
 
-        //send Image to Cloudinnary
-        const { secure_url } = await sendImageToCloudinary(imageFileName, path);
-        payload.profileImage = secure_url as string
-    }
-
-
+    payload.profileImage = fileName
     payload.role = 'user'
 
     const result = await User.create(payload);

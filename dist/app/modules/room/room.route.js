@@ -10,9 +10,10 @@ const vaildRequest_1 = __importDefault(require("../../middleware/vaildRequest"))
 const room_validation_1 = require("./room.validation");
 const auth_1 = __importDefault(require("../../middleware/auth"));
 const user_constant_1 = require("../user/user.constant");
-const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
+const multer_config_1 = require("../../config/multer.config");
 const route = (0, express_1.Router)();
-route.post('/create-room', (0, auth_1.default)(user_constant_1.USER_ROLE.admin), sendImageToCloudinary_1.upload.single('file'), (req, res, next) => {
+route.post('/create-room', (0, auth_1.default)(user_constant_1.USER_ROLE.admin), multer_config_1.multerUpload.single('file'), (req, res, next) => {
+    console.log(JSON.parse(req.body.data));
     req.body = JSON.parse(req.body.data);
     next();
 }, (0, vaildRequest_1.default)(room_validation_1.RoomValidationSchema.createRoomValidationSchema), room_controller_1.RoomControllers.createRoom);

@@ -16,22 +16,14 @@ exports.UserServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_model_1 = require("./user.model");
-const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const user_constant_1 = require("./user.constant");
-const createUserIntoDB = (file, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createUserIntoDB = (fileName, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.isUserExistsByEmailAddress(payload.email);
     if (user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'This user is Already Registered!');
     }
-    payload.profileImage = '';
-    if (file) {
-        const imageFileName = `${payload === null || payload === void 0 ? void 0 : payload.name}`;
-        const path = file === null || file === void 0 ? void 0 : file.path;
-        //send Image to Cloudinnary
-        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageFileName, path);
-        payload.profileImage = secure_url;
-    }
+    payload.profileImage = fileName;
     payload.role = 'user';
     const result = yield user_model_1.User.create(payload);
     return result;

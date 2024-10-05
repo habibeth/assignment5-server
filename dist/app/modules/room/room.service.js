@@ -18,19 +18,12 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const room_model_1 = require("./room.model");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const room_constant_1 = require("./room.constant");
-const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
-const createRoomIntoDB = (file, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createRoomIntoDB = (fileName, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const roomIsExists = yield room_model_1.Room.isRoomExists(payload.roomNo, payload.floorNo);
     if (roomIsExists) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, 'This Room is Already Exists!');
     }
-    if (file) {
-        const imageFileName = `${payload === null || payload === void 0 ? void 0 : payload.name}`;
-        const path = file === null || file === void 0 ? void 0 : file.path;
-        //send Image to Cloudinnary
-        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageFileName, path);
-        payload.image = secure_url;
-    }
+    payload.image = fileName;
     const result = yield room_model_1.Room.create(payload);
     return result;
 });

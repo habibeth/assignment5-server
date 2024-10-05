@@ -17,8 +17,9 @@ const user_service_1 = require("./user.service");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const user = req.body;
-    const result = yield user_service_1.UserServices.createUserIntoDB(req.file, user);
+    const result = yield user_service_1.UserServices.createUserIntoDB((_a = req.file) === null || _a === void 0 ? void 0 : _a.path, user);
     (0, sendResponse_1.default)(res, {
         message: 'User registered successfully',
         data: result

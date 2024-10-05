@@ -8,11 +8,12 @@ const express_1 = require("express");
 const user_validation_1 = require("./user.validation");
 const user_controller_1 = require("./user.controller");
 const vaildRequest_1 = __importDefault(require("../../middleware/vaildRequest"));
-const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const auth_1 = __importDefault(require("../../middleware/auth"));
 const user_constant_1 = require("./user.constant");
+const multer_config_1 = require("../../config/multer.config");
 const router = (0, express_1.Router)();
-router.post('/create-user', sendImageToCloudinary_1.upload.single('file'), (req, res, next) => {
+router.post('/create-user', multer_config_1.multerUpload.single('file'), (req, res, next) => {
+    console.log(JSON.parse(req.body.data));
     req.body = JSON.parse(req.body.data);
     next();
 }, (0, vaildRequest_1.default)(user_validation_1.UserValidation.createUserValidationSchema), user_controller_1.UserControllers.createUser);
